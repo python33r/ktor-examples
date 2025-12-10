@@ -7,7 +7,7 @@ fun dieRoll(sides: Int): Int {
     return Random.nextInt(sides) + 1
 }
 
-fun diceRoll(numDice: Int, sides: Int): List<Int> {
+fun diceRoll(numDice: Int, sides: Int): IntArray {
     require(numDice > 0) { "Invalid number of dice: $numDice" }
-    return List(numDice) { dieRoll(sides) }
+    return IntArray(numDice) { dieRoll(sides) }
 }

@@ -15,7 +15,7 @@ fun Application.configureRouting() {
 }
 
 private suspend fun ApplicationCall.displayForm() {
-    respondTemplate("form.html", model = mapOf(
+    respondTemplate("form.peb", model = mapOf(
         "sidesOptions" to sidesOptions
     ))
 }
@@ -23,7 +23,7 @@ private suspend fun ApplicationCall.displayForm() {
 private suspend fun ApplicationCall.handleDiceRoll() {
     val (dice, sides) = extractParameters(receiveParameters())
     val results = diceRoll(dice, sides)
-    respondTemplate("results.html", model = mapOf(
+    respondTemplate("results.peb", model = mapOf(
         "dice" to dice,
         "sides" to sides,
         "results" to results,
