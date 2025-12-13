@@ -41,8 +41,12 @@ and the server.
 `Entities.kt` implements the object-relational mapping, providing entity
 classes for the tables defined in `Tables.kt`.
 
-`Database.kt` defines functions for connecting to and creating the databases
-used by the web application.
+`Connect.kt` specifies how to connect to the database.
+
+`Create.kt` contains functions that can be used to populate the database.
+
+`Testing.kt` contains code for creating a simpler version of the database,
+for use in testing the application.
 
 ### Query Demo
 
@@ -57,11 +61,12 @@ Amper module `server` contains a Ktor-based web application.
 `Templates.kt` contains the configuration needed to support the use of
 Pebble templates.
 
-The bulk of the application logic is in `Routing.kt`. This sets up the
-routing of GET and POST requests to the code that can handle the request.
-That code uses Exposed's Data Access Objects API to make the necessary
-queries, then uses query results to render the appropriate template into
-HTML. The template files can be found in `resources/templates`.
+`Routing.kt` sets up the routing of GET and POST requests to the relevant
+request handling code. This code is distributed across the files `Home.kt`,
+`Artists.kt` and `Albums.kt`. The request handlers use Exposed's Data Access
+Objects API to make the necessary queries, then use query results to render
+the appropriate Pebble template into HTML. The template files can be found
+in `resources/templates`.
 
 `Application.kt` provides the entry point for the application. It delegates
 configuration to the extension functions defined in the aforementioned files,
