@@ -8,10 +8,10 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.pebble.respondTemplate
 import io.ktor.server.response.respond
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 
 suspend fun ApplicationCall.albums() {
-    newSuspendedTransaction {
+    suspendTransaction {
         val comparator = compareBy<Album> { it.artist.name }.thenBy { it.year }
         val albums = Album.all().sortedWith(comparator).toList()
         respondTemplate("albums.peb", mapOf("albums" to albums))
@@ -19,7 +19,7 @@ suspend fun ApplicationCall.albums() {
 }
 
 suspend fun ApplicationCall.album() {
-    newSuspendedTransaction {
+    suspendTransaction {
         val result = runCatching {
             parameters["id"]?.let {
                 Album.findById(it.toUInt())

@@ -2,9 +2,9 @@
 
 package comp2850.music.db
 
-import org.jetbrains.exposed.dao.UIntEntity
-import org.jetbrains.exposed.dao.UIntEntityClass
-import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.v1.dao.UIntEntity
+import org.jetbrains.exposed.v1.dao.UIntEntityClass
+import org.jetbrains.exposed.v1.core.dao.id.EntityID
 
 class Artist(id: EntityID<UInt>): UIntEntity(id) {
     companion object: UIntEntityClass<Artist>(Artists)

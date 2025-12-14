@@ -9,17 +9,18 @@ import comp2850.music.db.Artist
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.pebble.respondTemplate
 import io.ktor.server.request.receiveParameters
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.v1.core.like
+import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 
 suspend fun ApplicationCall.homePage() {
-    newSuspendedTransaction {
+    suspendTransaction {
         val data = mapOf("albums" to Album.count(), "artists" to Artist.count())
         respondTemplate("index.peb", data)
     }
 }
 
 suspend fun ApplicationCall.searchResults() {
-    newSuspendedTransaction {
+    suspendTransaction {
         val formParams = receiveParameters()
         val searchTerm = formParams["search_term"] ?: ""
         val results = Album.find { Albums.title like "%$searchTerm%" }

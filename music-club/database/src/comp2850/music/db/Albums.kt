@@ -2,8 +2,8 @@
 
 package comp2850.music.db
 
-import org.jetbrains.exposed.dao.id.UIntIdTable
-import org.jetbrains.exposed.sql.ReferenceOption
+import org.jetbrains.exposed.v1.core.dao.id.UIntIdTable
+import org.jetbrains.exposed.v1.core.ReferenceOption
 
 object Albums: UIntIdTable() {
     val artist = reference("artist_id", Artists, ReferenceOption.CASCADE)

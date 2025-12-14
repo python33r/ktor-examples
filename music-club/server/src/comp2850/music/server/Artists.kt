@@ -8,17 +8,17 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.pebble.respondTemplate
 import io.ktor.server.response.respond
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 
 suspend fun ApplicationCall.artists() {
-    newSuspendedTransaction {
+    suspendTransaction {
         val artists = Artist.all().sortedBy { it.name }.toList()
         respondTemplate("artists.peb", mapOf("artists" to artists))
     }
 }
 
 suspend fun ApplicationCall.artist() {
-    newSuspendedTransaction {
+    suspendTransaction {
         val result = runCatching {
             parameters["id"]?.let {
                 Artist.findById(it.toUInt())

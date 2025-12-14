@@ -2,7 +2,7 @@
 
 package comp2850.music.db
 
-import org.jetbrains.exposed.dao.id.UIntIdTable
+import org.jetbrains.exposed.v1.core.dao.id.UIntIdTable
 
 const val MAX_VARCHAR_LENGTH = 256
 

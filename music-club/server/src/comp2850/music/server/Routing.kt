@@ -7,7 +7,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
-import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.v1.jdbc.Database
 
 fun Application.configureRouting(db: Database) {
     routing {
