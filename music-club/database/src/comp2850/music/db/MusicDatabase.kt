@@ -16,9 +16,11 @@ object MusicDatabase {
         Database.connect(URL, DRIVER)
     }
 
-    fun create() {
+    fun create(logging: Boolean = false) {
         transaction(db) {
-            addLogger(StdOutSqlLogger)
+            if (logging) {
+                addLogger(StdOutSqlLogger)
+            }
 
             // Create tables
 
