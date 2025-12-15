@@ -1,25 +1,34 @@
 # Music Club Demo Application
 
 Web application for a music club, implemented using [Ktor][ktr], [htmx][hx],
-[Pebble][peb] templates and the [Exposed][orm] ORM framework. Also included
-is a small application that creates the music club's database, and another
-that demonstrates querying that database using Exposed's SQL DSL.
+[Pebble][peb] templates, the [Exposed][orm] ORM framework. Also included
+is a small application that creates the music club's [H2 database][db], and
+another that demonstrates querying that database using Exposed's SQL DSL.
 
 ## Running The Demo
 
-Everything is managed by [Amper][amp]. Start by creating the database
-with
+### Linux & macOS
+
+Everything is managed by the [Amper][amp] build tool. Start by creating the
+database with
 
     ./amper run -m create
 
-You will see the SQL statements echoed in the terminal. The database is
-created in the file `music.db`.
+By default, this runs _without_ logging the SQL statements in the terminal.
+If you want to see these, use this instead:
+
+    ./amper run -m create -- --sql
+
+The database is created in the file `music.mv.db`.
 
 To test whether the database can be queried successfully, do
 
     ./amper run -m query
 
-You will see some SQL queries and their results echoed in the terminal.
+Like `create`, with runs without logging any SQL. To see the actual SQL
+queries that are executed, as well as the query results, use this instead:
+
+    ./amper run -m query -- --sql
 
 Run the server with
 
@@ -27,26 +36,32 @@ Run the server with
 
 then visit `http://0.0.0.0:8080/` to interact with the application.
 
+### Windows
+
+If you are using `cmd.exe` as your command shell, omit the `./` from the
+start of the commands shown above.
+
+If you are using Windows PowerShell, invoke Amper with `.\amper.bat` instead
+of `./amper`.
+
 ## Examining The Code
 
 ### Database
 
-Amper module `database` contains all of the code needed to connect to the
+Amper module `database` contains all the code needed to connect to the
 databases used by the application, create the required database tables, and
 interact with those tables. This library of code is used by the query demo
 and the server.
 
-`Tables.kt` defines the database schema.
+The database schema is defined in `Artists.kt` and `Albums.kt`. The tables
+specified in these files are mapped into corresponding entities in
+`Artist.kt` and `Album.kt`.
 
-`Entities.kt` implements the object-relational mapping, providing entity
-classes for the tables defined in `Tables.kt`.
+`MusicDatabase.kt` defines an object representing the Music Club database,
+and also provides code to populate the database with sample data.
 
-`Connect.kt` specifies how to connect to the database.
-
-`Create.kt` contains functions that can be used to populate the database.
-
-`Testing.kt` contains code for creating a simpler version of the database,
-for use in testing the application.
+`TestDatabase.kt` defines an object representing a smaller, simpler database,
+suitable for testing the web application.
 
 ### Query Demo
 
@@ -76,4 +91,5 @@ and specifies a server to run the application.
 [hx]: https://htmx.org/
 [peb]: https://pebbletemplates.io/
 [orm]: https://jetbrains.github.io/Exposed/
+[db]: https://www.h2database.com/
 [amp]: https://amper.org/
