@@ -8,13 +8,13 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm")
-    implementation("io.ktor:ktor-server-netty")
-    implementation("io.ktor:ktor-server-config-yaml")
-    implementation("ch.qos.logback:logback-classic:1.5.13")
-    testImplementation("io.ktor:ktor-server-test-host")
-    testImplementation("io.kotest:kotest-assertions-core:5.9.1")
-    testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
+    testImplementation(libs.ktor.server.testHost)
+    testImplementation(libs.kotest.assertions.core)
+    testImplementation(libs.kotest.runner.junit5)
+    runtimeOnly(libs.ktor.server.configYaml)
+    runtimeOnly(libs.logback.classic)
 }
 
 kotlin {
