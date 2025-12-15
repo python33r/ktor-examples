@@ -9,13 +9,13 @@ dependencies:
   - ../database
   - $ktor.server.core
   - $ktor.server.netty
-  - $ktor.server.configYaml
   - $ktor.server.pebble
+  - $ktor.server.configYaml: runtime-only
   - $libs.exposed.core
   - $libs.exposed.jdbc
   - $libs.exposed.dao
   - $libs.h2: runtime-only
-  - $libs.logback: runtime-only
+  - $libs.logback.classic: runtime-only
 
 test-dependencies:
   - $ktor.server.testHost

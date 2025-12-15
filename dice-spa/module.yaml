@@ -10,5 +10,5 @@ dependencies:
   - $ktor.server.statusPages
   - $ktor.server.netty
   - $ktor.server.pebble
-  - $ktor.server.configYaml
-  - ch.qos.logback:logback-classic:1.5.18
+  - $ktor.server.configYaml: runtime-only
+  - ch.qos.logback:logback-classic:1.5.22: runtime-only
