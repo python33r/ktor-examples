@@ -1,3 +1,5 @@
+{# @pebvariable name="username" type="String" #}
+{# @pebvariable name="visits" type="Int" #}
 {% extends "base.peb" %}
 {% block content %}
 <h1>Private Page</h1>

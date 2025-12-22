@@ -1,3 +1,5 @@
+// Set up session cookies
+
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.sessions.Sessions

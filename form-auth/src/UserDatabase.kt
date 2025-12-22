@@ -1,10 +1,12 @@
-// Data store for usernames and passwords
+// Data store for usernames and password hashes
 
+import com.password4j.Password
 import io.ktor.server.auth.UserPasswordCredential
-import java.security.MessageDigest
+import java.io.File
 
 const val MIN_USERNAME_LENGTH = 4
 const val MIN_PASSWORD_LENGTH = 8
+const val AUTH_FILENAME = "auth.csv"
 
 fun UserPasswordCredential.nameIsValid() = when {
     name.length < MIN_USERNAME_LENGTH -> false
@@ -19,26 +21,34 @@ fun UserPasswordCredential.passwordIsValid() = when {
 }
 
 object UserDatabase {
-    // TODO: make this persistent (CSV file?)
-    // TODO: use proper password hashing algorithm (many iterations & salt)
+    private val authFile = File(AUTH_FILENAME)
+    private val passwordMap = mutableMapOf<String,String>()
 
-    private val passwordMap = mutableMapOf<String, String>()
+    init {
+        if (! authFile.createNewFile()) {
+            authFile.forEachLine {
+                val (username, hash) = it.split(",")
+                passwordMap[username] = hash
+            }
+        }
+    }
 
     val size get() = passwordMap.size
 
+    operator fun contains(username: String) = passwordMap.containsKey(username)
+
     fun addUser(cred: UserPasswordCredential) {
-        require(cred.nameIsValid()) { "Invalid username" }
-        require(cred.name !in passwordMap) { "Username already exists" }
-        require(cred.passwordIsValid()) { "Invalid password" }
-        passwordMap[cred.name] = hashOf(cred.password)
+        require(cred.nameIsValid()) { "invalid username" }
+        require(cred.name !in passwordMap) { "username already exists" }
+        require(cred.passwordIsValid()) { "invalid password" }
+
+        val hash = Password.hash(cred.password).addRandomSalt(8).withScrypt()
+        passwordMap[cred.name] = hash.result
+        authFile.appendText("${cred.name},${hash.result}\n")
     }
 
-    fun checkCredentials(cred: UserPasswordCredential): Boolean {
-        return cred.name in passwordMap && hashOf(cred.password) == passwordMap[cred.name]
-    }
-
-    private fun hashOf(password: String): String {
-        val sha256 = MessageDigest.getInstance("SHA-256")
-        return sha256.digest(password.toByteArray()).toHexString()
+    fun checkCredentials(cred: UserPasswordCredential) = when {
+        cred.name !in passwordMap -> false
+        else -> Password.check(cred.password, passwordMap[cred.name]).withScrypt()
     }
 }

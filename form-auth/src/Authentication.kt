@@ -27,9 +27,10 @@ fun Application.configureAuthentication() {
                 ))
             }
         }
+
         session<UserSession>("auth-session") {
             validate { session ->
-                if(sessionOK(session)) {
+                if(session.username in UserDatabase) {
                     session
                 } else {
                     null
@@ -40,9 +41,4 @@ fun Application.configureAuthentication() {
             }
         }
     }
-}
-
-fun sessionOK(session: UserSession): Boolean {
-    // TODO: handle session checking properly
-    return session.username == "nick"
 }

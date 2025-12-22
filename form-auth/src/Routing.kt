@@ -21,23 +21,21 @@ import io.ktor.server.util.getOrFail
 fun Application.configureRouting() {
     routing {
         get("/") { call.homePage() }
-        get("/login") { call.loginPage() }
         get("/register") { call.registrationPage() }
         post("/register") { call.registerUser() }
-        get("/logout") { call.logout() }
+        get("/login") { call.loginPage() }
         authenticate("auth-form") {
             post("/login") { call.login() }
         }
         authenticate("auth-session") {
             get("/private") { call.privatePage() }
+            get("/logout") { call.logout() }
         }
     }
 }
 
 private suspend fun ApplicationCall.homePage() {
-    respondTemplate("index.peb", model = mapOf(
-        "numUsers" to UserDatabase.size
-    ))
+    respondTemplate("index.peb", model = mapOf("users" to UserDatabase.size))
 }
 
 private suspend fun ApplicationCall.registrationPage() {
@@ -50,7 +48,7 @@ private suspend fun ApplicationCall.registerUser() {
         UserDatabase.addUser(credentials)
     }
     if (result.isSuccess) {
-        application.log.info("User ${credentials.name} registered (DB size = ${UserDatabase.size})")
+        application.log.info("User ${credentials.name} registered")
         respondRedirect("/")
     }
     else {
@@ -72,22 +70,25 @@ private suspend fun ApplicationCall.loginPage() {
 
 private suspend fun ApplicationCall.login() {
     val username = principal<UserIdPrincipal>()?.name.toString()
+    application.log.info("User ${username} logged in")
     sessions.set(UserSession(username, 1))
     respondRedirect("/private")
 }
 
-private suspend fun ApplicationCall.logout() {
-    sessions.clear<UserSession>()   // clear named session rather than all?
-    respondRedirect("/")
-}
-
 private suspend fun ApplicationCall.privatePage() {
     val session = principal<UserSession>()
-    // Increment visit count and update session cookie
+    // Increment visit count & update session cookie
     sessions.set(session?.copy(count = session.count + 1))
 
     respondTemplate("private.peb", model = mapOf(
         "username" to session?.username.toString(),
         "visits" to (session?.count ?: 0),
     ))
+}
+
+private suspend fun ApplicationCall.logout() {
+    val username = principal<UserSession>()?.username.toString()
+    application.log.info("User ${username} logged out")
+    sessions.clear<UserSession>()
+    respondRedirect("/")
 }

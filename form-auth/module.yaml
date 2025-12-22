@@ -15,4 +15,5 @@ dependencies:
   - $ktor.server.sessions
   - $ktor.serialization.kotlinx.json
   - $ktor.server.configYaml: runtime-only
+  - $libs.password4j
   - $libs.logback.classic: runtime-only
