@@ -7,12 +7,12 @@ import kotlinx.html.*
 
 fun Application.configureErrorHandling() {
     install(StatusPages) {
-        exception<Throwable> { call, cause ->
+        exception<Throwable> { call, error ->
             call.respondHtmlTemplate(LayoutTemplate(), HttpStatusCode.InternalServerError) {
                 titleText { +"Error: Die Roller" }
                 content {
                     h1 { +"500 Internal Server Error" }
-                    p { +"${cause.message}" }
+                    p { +"${error.message}" }
                 }
             }
         }
