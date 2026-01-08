@@ -11,6 +11,7 @@ import org.jetbrains.exposed.v1.jdbc.transactions.TransactionManager
 
 fun Application.module() {
     TransactionManager.defaultDatabase = MusicDatabase.db
+    configureErrorHandling()
     configureTemplates()
     configureRouting()
 }

@@ -109,6 +109,8 @@ Objects API to make the necessary queries, then use query results to render
 the appropriate Pebble template into HTML. The template files can be found
 in `resources/templates`.
 
+`Errors.kt` configures a custom error page for `404 Page Not Found` responses.
+
 `Application.kt` provides the entry point for the application. It delegates
 configuration to the extension functions defined in the aforementioned files,
 and specifies a server to run the application.

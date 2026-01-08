@@ -8,6 +8,7 @@ settings:
 dependencies:
   - ../database
   - $ktor.server.core
+  - $ktor.server.statusPages
   - $ktor.server.netty
   - $ktor.server.pebble
   - $ktor.server.configYaml: runtime-only
