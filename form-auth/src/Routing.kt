@@ -39,7 +39,7 @@ private suspend fun ApplicationCall.homePage() {
 }
 
 private suspend fun ApplicationCall.registrationPage() {
-    respondTemplate("register.peb", model = mapOf())
+    respondTemplate("register.peb", model = emptyMap())
 }
 
 private suspend fun ApplicationCall.registerUser() {
@@ -65,7 +65,7 @@ private suspend fun ApplicationCall.getCredentials(): UserPasswordCredential {
 }
 
 private suspend fun ApplicationCall.loginPage() {
-    respondTemplate("login.peb", model = mapOf())
+    respondTemplate("login.peb", model = emptyMap())
 }
 
 private suspend fun ApplicationCall.login() {
