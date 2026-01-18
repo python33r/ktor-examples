@@ -10,7 +10,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.testApplication
 
 @Suppress("unused")
-class ApplicationTest: StringSpec({
+class ApplicationTest : StringSpec({
     "Home page loads and reports artist & album counts correctly" {
         testApplication {
             application { testModule() }

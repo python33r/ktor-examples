@@ -6,8 +6,8 @@ import org.jetbrains.exposed.v1.dao.IntEntity
 import org.jetbrains.exposed.v1.dao.IntEntityClass
 import org.jetbrains.exposed.v1.core.dao.id.EntityID
 
-class Artist(id: EntityID<Int>): IntEntity(id) {
-    companion object: IntEntityClass<Artist>(ArtistTable)
+class Artist(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<Artist>(ArtistTable)
 
     var name by ArtistTable.name
     var isSolo by ArtistTable.isSolo
