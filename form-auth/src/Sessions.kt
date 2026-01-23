@@ -9,7 +9,7 @@ import io.ktor.util.hex
 import java.io.File
 import kotlinx.serialization.Serializable
 
-const val KEYS_FILENAME = "session.keys"
+const val KEYS_FILENAME = "session_keys.txt"
 
 @Serializable
 data class UserSession(val username: String, val count: Int)
