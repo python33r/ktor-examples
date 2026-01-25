@@ -15,7 +15,7 @@ fun Application.configureAuthentication() {
             userParamName = "username"
             passwordParamName = "password"
             validate { credentials ->
-                when (UserDatabase.checkCredentials(credentials)) {
+                when (UserDatabase.check(credentials)) {
                     true -> UserIdPrincipal(credentials.name)
                     false -> null
                 }

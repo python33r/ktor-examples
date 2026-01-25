@@ -47,7 +47,7 @@ object UserDatabase {
         authFile.appendText("${cred.name},${hash.result}\n")
     }
 
-    fun checkCredentials(cred: UserPasswordCredential) = when {
+    fun check(cred: UserPasswordCredential) = when {
         cred.name !in passwordMap -> false
         else -> Password.check(cred.password, passwordMap[cred.name]).withScrypt()
     }
